@@ -20,8 +20,10 @@ server.on("connection", (socket) => {
   socket.nocress = {};
   
   socket.on("message", (data) => {
+    let message;
+    
     try {
-      let message = JSON.parse(data);
+      message = JSON.parse(data);
     } catch {
       return;
     }
