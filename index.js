@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-const https = require("node:https");
-const fs = require("node:fs");
+import * as https from "node:https";
+import * as fs from "node:fs";
 import { WebSocketServer } from "ws";
 
 const httpsOptions = {
