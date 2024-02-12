@@ -38,15 +38,27 @@ server.on("connection", (socket) => {
       } else {
         socket.nocress.opponent.nocress.opponent = socket;
         
-        socket.send(JSON.stringify({
-          action: "foundOpponent",
-          opponent: 1
-        }));
-        
-        socket.nocress.opponent.send(JSON.stringify({
-          action: "foundOpponent",
-          opponent: 2
-        }));
+        if (Math.round(Math.random())) {
+          socket.send(JSON.stringify({
+            action: "foundOpponent",
+            opponent: 1
+          }));
+          
+          socket.nocress.opponent.send(JSON.stringify({
+            action: "foundOpponent",
+            opponent: 2
+          }));
+        } else {
+          socket.send(JSON.stringify({
+            action: "foundOpponent",
+            opponent: 2
+          }));
+          
+          socket.nocress.opponent.send(JSON.stringify({
+            action: "foundOpponent",
+            opponent: 1
+          }));
+        }
       }
     } else if (message.action == "move") {
       if (socket.nocress.opponent) {
