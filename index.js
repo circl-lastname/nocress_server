@@ -1,8 +1,17 @@
 #!/usr/bin/env node
 
+const https = require("node:https");
+const fs = require("node:fs");
 import { WebSocketServer } from "ws";
 
-let server = new WebSocketServer({ port: 6257 });
+const httpsOptions = {
+  key: fs.readFileSync(process.env.NOCRESS_KEY),
+  cert: fs.readFileSync(process.env.NOCRESS_CERT),
+};
+
+let httpsServer = https.createServer(httpsOptions);
+
+let server = new WebSocketServer({ port: 6257, server: httpsServer });
 
 let waitingPlayers = [];
 
