@@ -20,7 +20,11 @@ server.on("connection", (socket) => {
   socket.nocress = {};
   
   socket.on("message", (data) => {
-    let message = JSON.parse(data);
+    try {
+      let message = JSON.parse(data);
+    } catch {
+      return;
+    }
     
     if (message.action == "findOpponent") {
       if (socket.nocress.opponent) {
