@@ -7,10 +7,10 @@ import { WebSocketServer } from "ws";
 const httpsOptions = {
   key: fs.readFileSync(process.env.NOCRESS_KEY),
   cert: fs.readFileSync(process.env.NOCRESS_CERT),
-  port: 6257,
 };
 
 let httpsServer = https.createServer(httpsOptions);
+httpsServer.listen(6257);
 
 let server = new WebSocketServer({ server: httpsServer });
 
