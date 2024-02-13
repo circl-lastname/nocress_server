@@ -18,6 +18,7 @@ let waitingPlayers = [];
 
 server.on("connection", (socket) => {
   socket.nocress = {};
+  socket.nocress.username = "Anonymous";
   
   socket.on("message", (data) => {
     let message;
@@ -28,7 +29,11 @@ server.on("connection", (socket) => {
       return;
     }
     
-    if (message.action == "findOpponent") {
+    if (message.action == "setUsername") {
+      if (message.username && message.username.length <= 32) {
+        socket.nocress.username = message.username;
+      }
+    } else if (message.action == "findOpponent") {
       if (socket.nocress.opponent) {
         socket.nocress.opponent.send(JSON.stringify({
           action: "gameEnd"
@@ -47,22 +52,26 @@ server.on("connection", (socket) => {
         if (Math.round(Math.random())) {
           socket.send(JSON.stringify({
             action: "foundOpponent",
-            opponent: 1
+            opponent: 1,
+            username: socket.nocress.opponent.nocress.username
           }));
           
           socket.nocress.opponent.send(JSON.stringify({
             action: "foundOpponent",
-            opponent: 2
+            opponent: 2,
+            username: socket.nocress.username
           }));
         } else {
           socket.send(JSON.stringify({
             action: "foundOpponent",
-            opponent: 2
+            opponent: 2,
+            username: socket.nocress.opponent.nocress.username
           }));
           
           socket.nocress.opponent.send(JSON.stringify({
             action: "foundOpponent",
-            opponent: 1
+            opponent: 1,
+            username: socket.nocress.username
           }));
         }
       }
