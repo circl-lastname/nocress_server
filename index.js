@@ -30,7 +30,7 @@ server.on("connection", (socket) => {
     }
     
     if (message.action == "setUsername") {
-      if (message.username && message.username.length <= 32) {
+      if (message.username && typeof(message.username) == "string" && message.username.length <= 32) {
         socket.nocress.username = message.username;
       }
     } else if (message.action == "findOpponent") {
