@@ -20,6 +20,8 @@ let connections = 0;
 server.on("connection", (socket) => {
   connections++;
   
+  let heartbeatTimeout = setTimeout(socket.close, 6*60*1000);
+  
   socket.nocress = {};
   socket.nocress.username = "Anonymous";
   
@@ -88,6 +90,9 @@ server.on("connection", (socket) => {
           y: message.y,
         }));
       }
+    } else if (message.action == "keepAlive") {
+      clearTimeout(heartbeatTimeout);
+      heartbeatTimeout = setTimeout(socket.close, 6*60*1000);
     }
   });
   
