@@ -15,8 +15,11 @@ httpsServer.listen(6257);
 let server = new WebSocketServer({ server: httpsServer });
 
 let waitingPlayers = [];
+let connections = 0;
 
 server.on("connection", (socket) => {
+  connections++;
+  
   socket.nocress = {};
   socket.nocress.username = "Anonymous";
   
@@ -89,6 +92,8 @@ server.on("connection", (socket) => {
   });
   
   socket.on("close", () => {
+    connections--;
+    
     if (socket.nocress.opponent) {
       socket.nocress.opponent.send(JSON.stringify({
         action: "gameEnd"
@@ -106,5 +111,9 @@ server.on("connection", (socket) => {
 });
 
 setInterval(() => {
-  console.log(waitingPlayers.length);
-}, 1000);
+  let date = new Date();
+  fs.appendFileSync(
+    `${process.env.NOCRESS_LOG_DIR}/${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}.log`,
+    `${date.getHours()}:${date.getMinutes().toString().padStart(2, "0")},${connections}\r\n`
+  );
+}, 60000);
