@@ -117,3 +117,5 @@ setInterval(() => {
     `${date.getHours()}:${date.getMinutes().toString().padStart(2, "0")},${connections}\r\n`
   );
 }, 60000);
+
+console.log("Nocress server started");
