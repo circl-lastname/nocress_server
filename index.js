@@ -122,7 +122,7 @@ server.on("connection", (socket) => {
 setInterval(() => {
   let date = new Date();
   fs.appendFileSync(
-    `${process.env.NOCRESS_LOG_DIR}/${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}.log`,
+    `${process.env.NOCRESS_LOG_DIR}/${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}.csv`,
     `${date.getHours()}:${date.getMinutes().toString().padStart(2, "0")},${connections}\r\n`
   );
 }, 60000);
